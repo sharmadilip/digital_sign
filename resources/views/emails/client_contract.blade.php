@@ -1,0 +1,4 @@
+@include('emails.header') 
+        Beste {{$mailData['client_name']}},
+     <p class="MsoNormal"><span style="font-size: 10.0pt; font-family: 'Arial',sans-serif;">Wij heten u graag van harte welkom als klant van Money Management. In de bijlage treft u het door u ondertekende document aan.<br><br>Wij gaan graag voor u aan de slag om uw vorderingen te incasseren. Wanneer u uw vorderingen aanlevert, nemen wij binnen 24 uur actie!<br><br>Vorderingen mag u aanleveren via onze <a href="https://www.mmincasso.nl/indienen-vordering/">website </a>of via e-mail naar <a href="mailto:vordering@mmincasso.nl" target="_blank" rel="noopener">vordering@mmincasso.nl</a>. <br><br>Indien u verder nog vragen en/of opmerkingen heeft, twijfel dan niet om ons te benaderen.</span></p>
+     @include('emails.footer') 
