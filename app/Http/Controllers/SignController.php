@@ -87,4 +87,19 @@ class SignController extends Controller
          $pdftask=new PdfTask();
          return $pdftask->pdf_by_download($template_id);
  }
+//-------------------sign the contract manully------------------------------
+ public function sign_contract_manully(Request $request)
+{
+    
+    $get_template_id=$request->input('contract_id');
+
+    $data_get=DB::table("invoice_table")->select("*")->where("id",$get_template_id)->get()->first();
+         $data['pages_data']= json_decode($data_get->pdf_html_data);
+         $request_data['client_ip']=$request->ip();
+         $request_data['order_status']=2;
+         $request_data['sign_in_date']=Carbon::now()->toDateTimeString();
+         $request_data['pdf_html_data']=str_replace('#client_signature_here#','Manually Approved',$data['pages_data']);
+         DB::table("invoice_table")->updateOrInsert(array("id"=>$get_template_id),$request_data);
+         return back()->withStatus(__('Contract has been approved Manully.'));
+}
 }

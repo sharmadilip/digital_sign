@@ -24,12 +24,14 @@ return new class extends Migration
             $table->string('client_postcode')->nullable();
             $table->string('contract_type')->nullable();
             $table->integer('email_template')->nullable();
+            $table->integer('template_id')->nullable();
             $table->string('client_functie')->nullable();
             $table->longText('pdf_html_data')->nullable();
             $table->longText('client_sing')->nullable();
             $table->integer('order_status')->comment("0 for not send 1 for send to client 2 for sign by client");
             $table->timestamp('send_to_client')->nullable();
             $table->timestamp('sign_in_date')->nullable();
+            $table->tinyInteger('resend_status')->default('0');
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Client\Request;
 
 class ProfileRequest extends FormRequest
 {
@@ -15,7 +16,13 @@ class ProfileRequest extends FormRequest
      */
     public function authorize()
     {
+        if(auth()->user()->role_as==1)
+        {
+            return true;
+        }
+        else{
         return auth()->check();
+        }
     }
 
     /**
@@ -23,11 +30,22 @@ class ProfileRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules(FormRequest $request)
+    {   $user_id=$request->input('user_id');
+       
+        if(auth()->user()->role_as==1)
+        {
+            return [
+                'name' => ['required', 'min:3'],
+                'email' => ['required', 'email', Rule::unique((new User)->getTable())->ignore(User::find($user_id)->id)],
+            ];
+        }
+        else{
+       
         return [
             'name' => ['required', 'min:3'],
             'email' => ['required', 'email', Rule::unique((new User)->getTable())->ignore(auth()->id())],
         ];
+    }
     }
 }

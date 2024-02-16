@@ -25,6 +25,18 @@ class PDFController extends Controller
         $data['table_data']=$table_data;
         return view('pdfs.template_list',$data);
     }
+    public function copy_pdf_template(Request $request)
+    {   if(isset($request->template_id)) {
+        $template_id=$request->template_id;
+        $data_get=DB::table("pdf_templates")->select("*")->where("id",$template_id)->get()->first(); 
+        $data['pdf_data_html']= $data_get->pdf_data_html;
+        $data['template_name']=$data_get->template_name."_copy";
+        $data['created_at']=Carbon::now()->toDateTimeString();
+        DB::table("pdf_templates")->insert($data);
+         } 
+        
+         return back()->withStatus(__('Pdf template successfully copied.'));
+    }
     public function add_pdf_template(Request $request)
     {    if(isset($request->template_id)) {
         $template_id=$request->template_id;

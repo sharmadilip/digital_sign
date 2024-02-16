@@ -3,41 +3,9 @@
     <div class="row">
         <div class="col-12">
             <div class="card card-chart">
-                <div class="card-header ">
-                    <div class="row">
-                        <div class="col-sm-6 text-left">
-                            <h5 class="card-category">Total Contracts</h5>
-                            <h2 class="card-title">This year</h2>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
-                            <label class="btn btn-sm btn-primary btn-simple active" id="0">
-                                <input type="radio" name="options" checked>
-                                <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Approved</span>
-                                <span class="d-block d-sm-none">
-                                    <i class="tim-icons icon-single-02"></i>
-                                </span>
-                            </label>
-                            <label class="btn btn-sm btn-primary btn-simple" id="1">
-                                <input type="radio" class="d-none d-sm-none" name="options">
-                                <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Send TO Client</span>
-                                <span class="d-block d-sm-none">
-                                    <i class="tim-icons icon-gift-2"></i>
-                                </span>
-                            </label>
-                            <label class="btn btn-sm btn-primary btn-simple" id="2">
-                                <input type="radio" class="d-none" name="options">
-                                <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Draft</span>
-                                <span class="d-block d-sm-none">
-                                    <i class="tim-icons icon-tap-02"></i>
-                                </span>
-                            </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="card-body">
-                    <div class="chart-area">
+                    <div class="chart-area" style="height: auto;">
                         <canvas id="chartBig1"></canvas>
                     </div>
                 </div>
@@ -50,7 +18,7 @@
             <div class="card card-tasks">
                 <div class="card-header ">
                     <h6 class="title d-inline">Approved</h6>
-                    <p class="card-category d-inline">Last 30 days</p>
+                    <p class="card-category d-inline">Last 60 days</p>
                 </div>
                 <div class="card-body ">
                     <div class="table-responsive">
@@ -99,7 +67,7 @@
             <div class="card ">
                 <div class="card-header">
                     <h4 class="card-title d-inline">Sent to Client</h4>
-                    <p class="card-category d-inline">Last 30 days</p>
+                    <p class="card-category d-inline">Last 60 days</p>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -150,7 +118,45 @@
     <script src="{{ asset('black') }}/js/plugins/chartjs.min.js"></script>
     <script>
         $(document).ready(function() {
-         // demo.initDashboardPageCharts();
+            const ctx = document.getElementById('chartBig1');
+
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug","Sep","Oct","Nov","Dec" ],
+    datasets: [{
+        label: "Approved",
+        backgroundColor: "rgba(2, 82, 6, 0.31)",
+        borderColor: "rgba(2, 82, 6, 0.7)",
+        pointBorderColor: "rgba(2, 82, 6, 0.7)",
+        pointBackgroundColor: "rgba(2, 82, 6, 0.7)",
+        pointHoverBackgroundColor: "#fff",
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointBorderWidth: 1,
+        data: [{{$chart_data_approve}}],
+        borderWidth: 1
+    },{
+        label: "Sent",
+        backgroundColor: "rgba(38, 185, 154, 0.31)",
+        borderColor: "rgba(38, 185, 154, 0.7)",
+        pointBorderColor: "rgba(38, 185, 154, 0.7)",
+        pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+        pointHoverBackgroundColor: "#fff",
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointBorderWidth: 1,
+        data: [{{$chart_data_sent}}],
+        borderWidth: 1
+    }],
+   
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
         });
     </script>
 @endpush

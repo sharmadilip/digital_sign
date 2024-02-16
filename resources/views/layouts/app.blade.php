@@ -59,6 +59,7 @@
         <script src="{{ asset('black') }}/js/core/bootstrap.min.js"></script>
         <script src="{{ asset('black') }}/js/plugins/perfect-scrollbar.jquery.min.js"></script>
        
+       
         <!--  Google Maps Plugin    -->
         <!--  Notifications Plugin    -->
         <script src="{{ asset('black') }}/js/plugins/bootstrap-notify.js"></script>
@@ -132,6 +133,10 @@
         $("body").on('click',"#delete_invoice_data",function(event){
           return confirm("Are you sure you want to delete?");
         })
+        $("body").on('click',".manual_sign_btn",function(event){
+          return confirm("Are you sure you want manual sign?");
+        })
+        
 //-----------template controller btn acttions------------------
 $("body").on('click',"#delete_pdf_template_btn",function(){
    var template_id=$(this).data('id');

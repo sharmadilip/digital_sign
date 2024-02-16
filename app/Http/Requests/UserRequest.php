@@ -15,7 +15,13 @@ class UserRequest extends FormRequest
      */
     public function authorize()
     {
+        if(auth()->user()->role_as==1)
+        {
+            return true;
+        }
+        else{
         return auth()->check();
+        }
     }
 
     /**

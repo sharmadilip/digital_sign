@@ -96,12 +96,19 @@
                 <div class="collapse @if($activePage=='userprofile') show @endif" id="usermenuex">
                     <ul class="nav pl-4">
                         <li @if ($pageSlug == 'profile') class="active " @endif>
-                            <a href="{{ route('profile.edit')  }}">
+                            <a href="{{ route('profile.edit')  }}?user_id={{Auth::id()}}">
+                                <i class="tim-icons icon-single-02"></i>
+                                <p>{{ __('My Profile') }}</p>
+                            </a>
+                        </li>
+                        @if(Auth::id()==1)
+                        <li @if ($pageSlug == 'userlist') class="active " @endif>
+                            <a href="{{ route('user.userlist')  }}">
                                 <i class="tim-icons icon-single-02"></i>
                                 <p>{{ __('User Profile') }}</p>
                             </a>
                         </li>
-                        
+                        @endif
                     </ul>
                 </div>
             </li>

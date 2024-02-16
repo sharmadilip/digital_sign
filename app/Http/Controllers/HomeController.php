@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Illuminate\Http\Request;
 use PDF;
 use Carbon\Carbon;
@@ -27,11 +29,28 @@ class HomeController extends Controller
     {   $data=array(); 
         
         $data=array();
-        $get_send_contract=DB::table("invoice_table")->select('*')->where('order_status',1)->where('send_to_client','>',Carbon::now()->subDays(30))->get();
-        $Approved_contract=DB::table("invoice_table")->select('*')->where('order_status',2)->where('send_to_client','>',Carbon::now()->subDays(30))->get();
+        $get_send_contract=DB::table("invoice_table")->select('*')->where('order_status',1)->where('send_to_client','>',Carbon::now()->subDays(60))->orderBy('id','desc')->get();
+        $Approved_contract=DB::table("invoice_table")->select('*')->where('order_status',2)->where('send_to_client','>',Carbon::now()->subDays(60))->orderBy('id','desc')->get();
+        $chat_data=self::get_chart_data();
+        $data['chart_data_sent']=implode(',',$chat_data['send_contract']);
+        $data['chart_data_approve']=implode(',',$chat_data['approve_contract']);
         $data['send_contract']=$get_send_contract;
         $data['aproved_contract']=$Approved_contract;
         return view('dashboard',$data);
+    }
+    function get_chart_data()
+    {
+        $months_data=range(1,12);
+
+    $data=array();
+    $year=date('Y');
+    foreach($months_data as $month) {
+        $send_contrct=DB::table("invoice_table")->select('*')->where('order_status',1)->whereYear('send_to_client',$year)->whereMonth('send_to_client', $month);
+        $data['send_contract'][$month]=$send_contrct->count();
+        $approve=DB::table("invoice_table")->select('*')->where('order_status',2)->whereYear('sign_in_date',$year)->whereMonth('sign_in_date', $month);
+        $data['approve_contract'][$month]=$approve->count();
+    }
+    return $data;
     }
     
     public function view_email_tempalte()
@@ -57,7 +76,7 @@ class HomeController extends Controller
     public function save_email_template(Request $request)
     {
         $request_data=$request->all();
-        
+         
         unset($request_data['_token']);
         unset($request_data['_method']);
         $request_data['created_at']=Carbon::now()->toDateTimeString();

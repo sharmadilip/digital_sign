@@ -26,17 +26,17 @@
                              @include('alerts.feedback', ['field' => 'user_email_id'])
                         </div>
                         <div class="form-group{{ $errors->has('client_name') ? ' has-danger' : '' }}">
-                              <label>{{ __('Cleint Name') }}</label>
+                              <label>{{ __('Client Name') }}</label>
                              <input type="text" name="client_name" class="form-control{{ $errors->has('client_name') ? ' is-invalid' : '' }}" placeholder="{{ __('Client Name') }}" value="">
                              @include('alerts.feedback', ['field' => 'client_name'])
                         </div>
                         <div class="form-group{{ $errors->has('client_company_name') ? ' has-danger' : '' }}">
-                          <label>{{ __('Cleint Company Name') }}</label>
+                          <label>{{ __('Client Company Name') }}</label>
                          <input type="text" name="client_company_name" class="form-control{{ $errors->has('client_company_name') ? ' is-invalid' : '' }}" placeholder="{{ __('Client Company Name') }}" value="">
                          @include('alerts.feedback', ['field' => 'client_company_name'])
                     </div>
                         <div class="form-group{{ $errors->has('client_email_id') ? ' has-danger' : '' }}">
-                              <label>{{ __('Cleint Email ID') }}</label>
+                              <label>{{ __('Client Email ID') }}</label>
                              <input type="email" name="client_email_id" class="form-control{{ $errors->has('client_email_id') ? ' is-invalid' : '' }}" placeholder="{{ __('Client Email ID') }}" value="">
                              @include('alerts.feedback', ['field' => 'client_email_id'])
                         </div>
