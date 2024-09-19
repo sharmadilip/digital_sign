@@ -27,7 +27,7 @@
                         </div>
                         <div class="form-group{{ $errors->has('client_name') ? ' has-danger' : '' }}">
                               <label>{{ __('Client Name') }}</label>
-                             <input type="text" name="client_name" class="form-control{{ $errors->has('client_name') ? ' is-invalid' : '' }}" placeholder="{{ __('Client Name') }}" value="">
+                             <input type="text" name="client_name" class="form-control{{ $errors->has('client_name') ? ' is-invalid' : '' }}" placeholder="{{ __('Client Name') }}" required value="">
                              @include('alerts.feedback', ['field' => 'client_name'])
                         </div>
                         <div class="form-group{{ $errors->has('client_company_name') ? ' has-danger' : '' }}">
@@ -37,12 +37,12 @@
                     </div>
                         <div class="form-group{{ $errors->has('client_email_id') ? ' has-danger' : '' }}">
                               <label>{{ __('Client Email ID') }}</label>
-                             <input type="email" name="client_email_id" class="form-control{{ $errors->has('client_email_id') ? ' is-invalid' : '' }}" placeholder="{{ __('Client Email ID') }}" value="">
+                             <input type="email" name="client_email_id" class="form-control{{ $errors->has('client_email_id') ? ' is-invalid' : '' }}" placeholder="{{ __('Client Email ID') }}" required value="">
                              @include('alerts.feedback', ['field' => 'client_email_id'])
                         </div>
                         <div class="form-group{{ $errors->has('client_location') ? ' has-danger' : '' }}">
                           <label>{{ __('Client Location') }}</label>
-                         <input type="text" name="client_location" class="form-control{{ $errors->has('client_location') ? ' is-invalid' : '' }}" placeholder="{{ __('Client Location') }}" value="">
+                         <input type="text" name="client_location" class="form-control{{ $errors->has('client_location') ? ' is-invalid' : '' }}" placeholder="{{ __('Client Location') }}" required value="">
                          @include('alerts.feedback', ['field' => 'client_location'])
                          </div>
                          <div class="form-group{{ $errors->has('client_street') ? ' has-danger' : '' }}">
@@ -82,11 +82,17 @@
                           <label>{{ __('Contract Type') }}</label>
                          <select  name="contract_type" class="form-control{{ $errors->has('contract_type') ? ' is-invalid' : '' }}">
                             
-                            <option value="1">Contract</option>
-                            <option value="2">Quotation</option>
+                          <option value="2">Quotation</option> 
+                          <option value="1">Contract</option>
+                            
                          </select>
                          @include('alerts.feedback', ['field' => 'contract_type'])
                     </div>
+                    <div class="form-group{{ $errors->has('bcc_email') ? ' has-danger' : '' }}">
+                          <label>{{ __('Bcc Email') }}</label>
+                         <input type="text" name="bcc_email" class="form-control{{ $errors->has('bcc_email') ? ' is-invalid' : '' }}" placeholder="{{ __('Bcc Email') }}" value="sales@mmincasso.nl">
+                         @include('alerts.feedback', ['field' => 'bcc_email'])
+                         </div>
                      </div>
              <div class="card-footer">
                <button type="submit" class="btn btn-fill btn-primary">{{ __('Save') }}</button>

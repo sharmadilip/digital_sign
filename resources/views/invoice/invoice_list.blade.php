@@ -11,7 +11,7 @@
 
           </div>
           <div class="card-body">
-            <form class="form" class="" method="post" action="{{ route('pages.searchinvoice') }}">
+            <form class="form" class="" method="post" action="{{ route('pages.invoicelist') }}">
               @csrf
               <div class="row ">
                 <div class="col-md-6">
@@ -79,6 +79,8 @@
                               In Draft
                              @elseif($my_data->order_status==1)
                               Send To Client
+                              @elseif($my_data->order_status==2&&$my_data->client_sing==null)
+                              Signed By Manually
                               @elseif($my_data->order_status==2)
                               Signed By client
                               @endif 

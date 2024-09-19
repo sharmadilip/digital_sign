@@ -27,7 +27,7 @@ class InvoiceApprovedClient extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Contract Approved Client',
+            subject: $this->mailData['subject'],
         );
     }
 

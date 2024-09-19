@@ -18,21 +18,26 @@ class InvoiceController extends Controller
     {
         $this->middleware('auth');
     }
-    public function view_invoice()
+    public function view_invoice(Request $request)
     {  $data=array();
-       $template_data= DB::table("invoice_table")->orderBy('id','desc')->paginate(10);
-       $data['invoice_data']=$template_data;
-       return view('invoice.invoice_list',$data);
-    }
-    public function searchinvoice(Request $request)
-    {  $search_text=$request->input('search_text');
+        $search_text=$request->input('search_text');
+        if(isset($search_text))
+        {
+            
         $data=array();
         $template_query=DB::table("invoice_table")->where('client_name','like','%' . $search_text . '%')->orWhere('client_company_name', 'like', '%' . $search_text . '%')->orWhere('client_email_id', 'like', '%' . $search_text . '%');
        $template_data= $template_query->orderBy('id','desc')->paginate(50);
-       $data['invoice_data']=$template_data;
+      
        $data['search_text']=$search_text;
+        }
+        else{
+            $template_data= DB::table("invoice_table")->orderBy('id','desc')->paginate(10);
+            
+        }
+        $data['invoice_data']=$template_data;
        return view('invoice.invoice_list',$data);
     }
+  
     public function add_invoice(Request $request)
     {    $request_data=$request->all();
         $data=array();
@@ -97,7 +102,7 @@ class InvoiceController extends Controller
          $data['pages_data']= json_decode($data_get->pdf_html_data);
          $email_template_replace=array();
          $email_template_replace['#contract_numer#']='MM'.(1000+$data_get->id);
-         $email_template_replace['#client_name_place#']=$data_get->user_name;
+         $email_template_replace['#client_name_place#']=$data_get->client_name;
          $email_template_replace['#client_functie_place#']=$data_get->client_functie;
          $email_template_replace['#client_location_place#']=$data_get->client_location;
          $email_template_replace['#client_postcode_place#']=$data_get->client_postcode;
@@ -111,15 +116,29 @@ class InvoiceController extends Controller
         
          $pdftask=new PdfTask();
          $pdf_url=$pdftask->pdf_by_path($contact_id);
+         
          //--------------defining the email item if data is from resend-----------------
          if($data_get->order_status==1)
-        {  $request_data['resend_status']=1;
+        { 
+            $email_get_lang= DB::table("email_template")->select('language')->where('id',$data_get->email_template)->get()->first();
+            $request_data['resend_status']=1;
            if($data_get->contract_type==2)
-          {
-            $email_templ=6;
+          { 
+            if($email_get_lang->language=="nl")
+            {$email_templ=5;}
+            else{
+                $email_templ=10;
+            }
+            
           }
           else{
-            $email_templ=5;
+            if($email_get_lang->language=="nl")
+            {
+                $email_templ=6;
+            }
+            else{
+                $email_templ=11;
+            }
           }
         }
         else{
@@ -134,6 +153,15 @@ class InvoiceController extends Controller
           }
 
          $client_subject=$email_template_data->subject;
+
+         if(isset($email_template_data->language))
+         {
+            $client_language=$email_template_data->language;
+         }
+         else{
+          $client_language="nl";
+         }
+        
          //---client email action------------------
          $mailData = [
             'subject' => $client_subject,
@@ -147,13 +175,32 @@ class InvoiceController extends Controller
         //-----------email section -----------------
          $client_invoice=new InvoiceSendClient($mailData);
          $client_invoice->attach($pdf_url);
-         Mail::to($data_get->client_email_id)->send($client_invoice);
+         //-----------extra document attached for the client email--------------
+         if($data_get->order_status!=1&&$email_template_data->extra_file!=null)
+        {   $files_array=unserialize($email_template_data->extra_file);
+            foreach($files_array as $pdf_attach)
+            {
+                $pdf_file_attached=ltrim($pdf_attach,'/');
+            $client_invoice->attach($pdf_file_attached);
+            }
+        }
+         Mail::to($data_get->client_email_id)->bcc('sales@mmincasso.nl','Sales')->send($client_invoice);
 
-
-         $user_invoice=new InvoiceSend($mailData);
+         if($data_get->order_status!=1)
+        { 
+            //----------------send contract detail to admin email data-----------------
+          $user_email_data=  DB::table("email_text_data")->select('*')->where('template_name',"mm_invoice_send")->where("language",$client_language)->get()->first();  
+          $user_template_body=$user_email_data->email_text;
+          foreach($email_template_replace as $key=>$values)
+          {
+            $user_template_body=str_replace($key,$values,$user_template_body);
+          }
+          
+          $user_email=['subject' => $user_email_data->subject_text,'client_name'=>$data_get->client_name,'body' => $user_template_body];
+          $user_invoice=new InvoiceSend($user_email);
          $user_invoice->attach($pdf_url);
          Mail::to($data_get->user_email_id)->send($user_invoice);
-        
+        }
          //---------------end email action--------------------
           $request_data['order_status']=1;
           $request_data['send_to_client']=Carbon::now()->toDateTimeString();

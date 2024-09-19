@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Contracten via mmcontracts - Money Management B.V.</title>
     <style type="text/css">
-     body, p,span{font-family: 'Arial, Helvetica, sans-serif' !important;
+     body, p,span{font-family: 'Arial' !important;
      
     }
   </style>

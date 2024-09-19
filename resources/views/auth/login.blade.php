@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="col-md-10 text-center ml-auto mr-auto">
-        <h3 class="mb-5">Log in to create invoice and send them to client.</h3>
+        <h3 class="mb-5">Log in to create contracts and send them to client.</h3>
     </div>
     <div class="col-lg-4 col-md-6 ml-auto mr-auto">
         <form class="form" method="post" action="{{ route('login') }}">

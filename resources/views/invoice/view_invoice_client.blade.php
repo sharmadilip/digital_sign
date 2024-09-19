@@ -46,7 +46,7 @@
   
             
              <div class="card-footer text-center">
-               @if($order_status!=2)<button type="button" data-toggle="modal" data-target="#paint_signature" class="btn btn-fill btn-info btn-sm">{{ __('Voeg handtekening toe') }}</button> <button type="button" data-toggle="modal" data-target="#upload_signature" class="btn btn-fill btn-info btn-sm">{{ __('Upload handtekening') }}</button> @endif @if(isset($signature_data)&&$order_status!=2)<button type="button" id="approve_signature_digital" class="btn btn-fill btn-info btn-sm">{{ __('Contract goedkeuren') }}</button> @endif
+               @if($order_status!=2)<button type="button" data-toggle="modal" data-target="#paint_signature" class="btn btn-fill btn-info btn-sm">{{ __('Voeg handtekening toe') }}</button> <button type="button" data-toggle="modal" data-target="#upload_signature" class="btn btn-fill btn-info btn-sm">{{ __('Upload handtekening') }}</button> @endif @if(isset($signature_data)&&$order_status!=2)<button type="button" id="approve_signature_digital" style="background: #066c06 !important;" class="btn btn-fill btn-info btn-sm">{{ __('Contract goedkeuren') }}</button> @endif
              
              @if($order_status==2)<button type="button" class="btn btn-fill btn-info btn-sm">Ondertekend</button>@endif </div>
           </form>

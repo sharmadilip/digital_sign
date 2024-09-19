@@ -1,23 +1,23 @@
 {
     "open sans": {
-        "bold": "D:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_bold_041b76dda53fda4b7c1fc70bfadd748b",
-        "bold_italic": "D:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_bold_italic_b6f25e8aa1f3b5dffb2f69e935ace6b0",
-        "800": "D:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_800_62ec04ae9068524091060555dc60efaf",
-        "800_italic": "D:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_800_italic_4e6c98c65c30f9e42e0ef6a4acc25d18",
-        "300": "D:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_300_d3bbb617afcfa9f57b6ec9dac7b953db",
-        "300_italic": "D:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_300_italic_55101153ad901ea3ca269ab99b7799c4",
-        "500": "D:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_500_a611a3a0a20c514f6bee41971f4424dc",
-        "500_italic": "D:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_500_italic_6f990f0b66e3294b61929b52f9f99802",
-        "normal": "D:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_normal_47605a83014b8026e1c1c2eabf2eab14",
-        "600": "D:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_600_77d0f89ca577334258737612a062d2d1",
-        "600_italic": "D:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_600_italic_568371bb61239d09e7a824ee29f39079",
+        "bold": "C:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_bold_041b76dda53fda4b7c1fc70bfadd748b",
+        "bold_italic": "C:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_bold_italic_b6f25e8aa1f3b5dffb2f69e935ace6b0",
+        "800": "C:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_800_62ec04ae9068524091060555dc60efaf",
+        "800_italic": "C:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_800_italic_4e6c98c65c30f9e42e0ef6a4acc25d18",
+        "300": "C:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_300_d3bbb617afcfa9f57b6ec9dac7b953db",
+        "300_italic": "C:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_300_italic_55101153ad901ea3ca269ab99b7799c4",
+        "500": "C:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_500_a611a3a0a20c514f6bee41971f4424dc",
+        "500_italic": "C:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_500_italic_6f990f0b66e3294b61929b52f9f99802",
+        "normal": "C:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_normal_47605a83014b8026e1c1c2eabf2eab14",
+        "600": "C:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_600_77d0f89ca577334258737612a062d2d1",
+        "600_italic": "C:\\xampp\\htdocs\\invoice\\storage\\fonts\/open_sans_600_italic_568371bb61239d09e7a824ee29f39079",
         "italic": "open_sans_italic_568371bb61239d09e7a824ee29f39079"
     },
     "century gothic": {
-        "bold": "D:\\xampp\\htdocs\\invoice\\storage\\fonts\/century_gothic_bold_3e1f44189e62d30bdcdb9326245410d5",
-        "bold_italic": "D:\\xampp\\htdocs\\invoice\\storage\\fonts\/century_gothic_bold_italic_9b289f36b89b7a2a0ec9d72da4ab4b99",
-        "normal": "D:\\xampp\\htdocs\\invoice\\storage\\fonts\/century_gothic_normal_6ba20991d7b84c9e88a1529727411277",
-        "500_italic": "D:\\xampp\\htdocs\\invoice\\storage\\fonts\/century_gothic_500_italic_568371bb61239d09e7a824ee29f39079",
+        "bold": "C:\\xampp\\htdocs\\invoice\\storage\\fonts\/century_gothic_bold_3e1f44189e62d30bdcdb9326245410d5",
+        "bold_italic": "C:\\xampp\\htdocs\\invoice\\storage\\fonts\/century_gothic_bold_italic_9b289f36b89b7a2a0ec9d72da4ab4b99",
+        "normal": "C:\\xampp\\htdocs\\invoice\\storage\\fonts\/century_gothic_normal_6ba20991d7b84c9e88a1529727411277",
+        "500_italic": "C:\\xampp\\htdocs\\invoice\\storage\\fonts\/century_gothic_500_italic_568371bb61239d09e7a824ee29f39079",
         "italic": "century_gothic_italic_f9318855edef8d2eae5bc22551acd848"
     }
 }

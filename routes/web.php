@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Auth::routes();
-Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
+Route::get('/', 'App\Http\Controllers\HomeController@index')->name('homepage')->middleware('auth');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
@@ -30,8 +30,8 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('savepdftemplate', ['as' => 'pages.savepdftemplate', 'uses' => 'App\Http\Controllers\PDFController@save_pdf_template']);
 		Route::post('deletepdftemplate', ['as' => 'pages.deletepdftemplate', 'uses' => 'App\Http\Controllers\PDFController@delete_pdf_tempalte']);
         Route::get('templatelist', ['as' => 'pages.templatelist', 'uses' => 'App\Http\Controllers\PDFController@list_pdf_template']);
-		Route::get('invoicelist', ['as' => 'pages.invoicelist', 'uses' => 'App\Http\Controllers\InvoiceController@view_invoice']);
-		Route::post('searchinvoice', ['as' => 'pages.searchinvoice', 'uses' => 'App\Http\Controllers\InvoiceController@searchinvoice']);
+		Route::any('invoicelist', ['as' => 'pages.invoicelist', 'uses' => 'App\Http\Controllers\InvoiceController@view_invoice']);
+		
 		Route::get('addinvoice', ['as' => 'pages.addinvoice', 'uses' => 'App\Http\Controllers\InvoiceController@add_invoice']);
 		Route::get('delete_contract', ['as' => 'pages.deletecontract', 'uses' => 'App\Http\Controllers\InvoiceController@delete_contract_data']);
 		Route::post('saveinvoice', ['as' => 'pages.saveinvoice', 'uses' => 'App\Http\Controllers\InvoiceController@save_invoice']);
@@ -40,8 +40,12 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('add_email_template', ['as' => 'pages.addemailtemplate', 'uses' => 'App\Http\Controllers\HomeController@add_email_template']);
 		Route::post('save_email_template', ['as' => 'pages.saveemailtemplate', 'uses' => 'App\Http\Controllers\HomeController@save_email_template']);
 		Route::get('view_email_template', ['as' => 'pages.viewemailtemplate', 'uses' => 'App\Http\Controllers\HomeController@view_email_tempalte']);
+		Route::get('view_fixemail_template', ['as' => 'pages.viewfixemailtemplate', 'uses' => 'App\Http\Controllers\HomeController@view_fixemail_tempalte']);
+		Route::get('edit_fixemail_template', ['as' => 'pages.editfixemailtemplate', 'uses' => 'App\Http\Controllers\HomeController@edit_fixemail_template']);
+		Route::post('save_fixemail_template', ['as' => 'pages.savefixemailtemplate', 'uses' => 'App\Http\Controllers\HomeController@save_fixemail_template']);
 		Route::get('delete_email_template', ['as' => 'pages.deleteemailtemplate', 'uses' => 'App\Http\Controllers\HomeController@delete_template']);
 		Route::get('sign_contract_manul', ['as' => 'pages.signcontractmanully', 'uses' => 'App\Http\Controllers\SignController@sign_contract_manully']);
+		Route::post('deletelinkfileemail', ['as' => 'pages.deletelinkfileemail', 'uses' => 'App\Http\Controllers\HomeController@delete_uploaded_file']);
 		
 });
 Route::group(['middleware' => 'auth'], function () {

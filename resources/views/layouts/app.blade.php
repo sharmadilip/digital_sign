@@ -162,7 +162,32 @@ $("body").on('click',"#delete_pdf_template_btn",function(){
         })
       }
 });
-
+//-------------function to delete uploaded files----------
+$("body").on("click",".delete_this_file",function(){
+  var template_id=$(this).data('id');
+  var element=this;
+  var file_name=$(this).data('name');
+  $.ajax({
+         headers: {
+         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         },
+          'url':'{{route("pages.deletelinkfileemail")}}',
+          'data':{"file_name":file_name,"template_id":template_id},
+          'type': "POST",
+          success: function (data) {
+           
+            if(data=="deleted")
+          {
+            $(element).parent("span").remove();
+           
+          }
+       
+        },
+        error: function (data) {
+         
+        }
+        });
+})
 //-------------------button for send to client invoice status change ---------------------
 
 $("body").on('click',"#send_to_client_contract",function(){
@@ -197,12 +222,17 @@ $("body").on('click',"#send_to_client_contract",function(){
     
     var canvas = document.getElementById("signature");
     var signaturePad = new SignaturePad(canvas);
+    var blank_signature=signaturePad.toDataURL('image/png');
     $("#clear_signature_pad").on("click",function(){
         signaturePad.clear();
     }) 
     $("#save_signature").on('click',function(){
         var data = signaturePad.toDataURL('image/png');
-        if(data)
+        if(blank_signature==data)
+        {
+          alert("Teken uw handtekening alstublieft.");
+        }
+        else if(data)
         {
          $('#signature_data_value').val(data);
          $('#paint_signature').modal('hide');
@@ -220,6 +250,9 @@ $("body").on('click',"#send_to_client_contract",function(){
            
           }
          })
+        }
+        else{
+          alert("Fout bij het ondertekenen van het document neem contact op met de beheerder.");
         }
     })
     //---------upload signature check-------------

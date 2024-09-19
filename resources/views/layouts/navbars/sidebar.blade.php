@@ -57,6 +57,12 @@
                                 <p>{{ __('Add Template') }}</p>
                             </a>
                         </li>
+                        <li @if ($pageSlug == 'fixemails') class="active " @endif>
+                            <a href="{{ route('pages.viewfixemailtemplate')  }}">
+                                <i class="tim-icons icon-single-02"></i>
+                                <p>{{ __('Fix Emails') }}</p>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>

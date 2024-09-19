@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'emailsection', 'titlePage' => __('Template List'), 'pageSlug' => 'list_email'])
+@extends('layouts.app', ['activePage' => 'emailsection', 'titlePage' => __('fixemails List'), 'pageSlug' => 'fixemails'])
 
 @section('content')
 <div class="content">
@@ -7,7 +7,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-primary">
-            <h4 class="card-title ">Email Templates </h4>
+            <h4 class="card-title ">FixEmail Templates </h4>
 
           </div>
           <div class="card-body">
@@ -40,17 +40,17 @@
                             {{$my_data->template_name}}
                         </td>
                         <td>
-                          {{$my_data->subject}}
+                          {{$my_data->subject_text}}
                       </td>
                       <td>
                         {{$my_data->language}}
                     </td>
                           <td>
-                              {{$my_data->created_at}}
+                              {{$my_data->updated_at}}
                           </td>
                           
                           <td class="text-center">
-                             <a href="{{ route('pages.addemailtemplate') }}?email_template_id={{$my_data->id}}" class="text-info" >Edit</a> | <a href="{{ route('pages.deleteemailtemplate') }}?email_template_id={{$my_data->id}}"   class="text-info" >Delete</a> 
+                             <a href="{{ route('pages.editfixemailtemplate') }}?email_template_id={{$my_data->id}}" class="text-info" >Edit</a> | <a href="{{ route('pages.deleteemailtemplate') }}?email_template_id={{$my_data->id}}"   class="text-info" >Delete</a> 
                           </td>
                       </tr>
                   @endforeach

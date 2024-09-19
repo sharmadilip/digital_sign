@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use PDF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -60,6 +61,13 @@ class HomeController extends Controller
         $data['table_data']=$template_data;
         return view('emails.template_list',$data);
     }
+    public function view_fixemail_tempalte()
+    {
+        $data=array();
+        $template_data= DB::table("email_text_data")->orderBy('id','desc')->paginate(20);
+        $data['table_data']=$template_data;
+        return view('emails.fixemail_list',$data);
+    }
     public function add_email_template(Request $request)
     {   $data=array();
         $request_data=$request->all();
@@ -69,9 +77,31 @@ class HomeController extends Controller
             $data['id']=$email_data->id;
             $data['template_name']=$email_data->template_name;
             $data['body_text']=$email_data->body_text;
+            $data['language']=$email_data->language;
             $data['subject']=$email_data->subject;
+            if(!empty($email_data->extra_file))
+            {
+            $data['extra_file']=unserialize($email_data->extra_file);
+            }
+            else{
+                $data['extra_file']=array();
+            }
         }
         return view('emails.add_template',$data);
+    }
+    public function edit_fixemail_template(Request $request)
+    {   $data=array();
+        $request_data=$request->all();
+        if(isset($request_data['email_template_id']))
+        {
+            $email_data=DB::table("email_text_data")->select('*')->where('id',$request_data['email_template_id'])->get()->first();
+            $data['id']=$email_data->id;
+            $data['template_name']=$email_data->template_name;
+            $data['email_text']=$email_data->email_text;
+            $data['language']=$email_data->language;
+            $data['subject_text']=$email_data->subject_text;
+        }
+        return view('emails.add_fixtemplate',$data);
     }
     public function save_email_template(Request $request)
     {
@@ -80,6 +110,24 @@ class HomeController extends Controller
         unset($request_data['_token']);
         unset($request_data['_method']);
         $request_data['created_at']=Carbon::now()->toDateTimeString();
+        
+        if($request->hasFile('extra_file'))
+        {   $file_array=array();
+           
+            foreach($request->file('extra_file') as  $image)
+            {
+           // $image      = $request->file('extra_file');
+             $file_name=$image->getClientOriginalName();
+            $imageName  =  $file_name;
+            $path       = "email_upload_pdf/".$imageName;
+       
+          $uploaded_file=  Storage::disk('public')->put($path, file_get_contents($image)); 
+          $file_url = Storage::url('app/public/').$path;
+          $file_array[]=$file_url;
+         // $request_data['extra_file']=$file_url;
+            }
+            $request_data['extra_file']=serialize($file_array);
+        }
         if(isset( $request_data['edit_id']))
         {
             $edit_id=$request_data['edit_id'];
@@ -93,11 +141,45 @@ class HomeController extends Controller
             return back()->withStatus(__('Email Template Added successfully.'));
         }
     }
+    public function save_fixemail_template(Request $request)
+    {
+        $request_data=$request->all();
+         
+        unset($request_data['_token']);
+        unset($request_data['_method']);
+        $request_data['updated_at']=Carbon::now()->toDateTimeString();
+        if(isset( $request_data['edit_id']))
+        {
+            $edit_id=$request_data['edit_id'];
+            unset($request_data['edit_id']);
+            DB::table("email_text_data")->updateOrInsert(array("id"=>$edit_id),$request_data);
+            return back()->withStatus(__('fixEmail Template Updated successfully.'));
+        }
+        else{
+            
+            DB::table("email_template")->insert($request_data);
+            return back()->withStatus(__('Email Template Added successfully.'));
+        }
+    }
     public function delete_template(Request $request)
     {
         $email_temp_id=$request->input('email_template_id');
         DB::table('email_template')->where('id', $email_temp_id)->delete();
         return back()->withStatus(__('Email Template Deleted successfully.'));
+    }
+    //-------------public function to delete file from database--------------
+
+    public function delete_uploaded_file(Request $request)
+    {
+        $file_name=$request->input('file_name');
+        $email_template_id=$request->input('template_id');
+       $extraFile= DB::table('email_template')->select('extra_file')->where('id', $email_template_id)->get()->first();
+       $files_list=unserialize($extraFile->extra_file);
+       $file_key=array_search($file_name,$files_list);
+       unset($files_list[$file_key]);
+       $file_data=serialize($files_list);
+       DB::table("email_template")->where(array("id"=>$email_template_id))->update(["extra_file"=>$file_data]);
+      echo "deleted";
     }
     
 }

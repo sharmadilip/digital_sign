@@ -28,7 +28,7 @@ class InvoiceSend extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Contract by Mmincasso',
+            subject: $this->mailData['subject'],
         );
     }
 

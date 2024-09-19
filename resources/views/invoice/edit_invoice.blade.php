@@ -27,7 +27,7 @@
                         </div>
                         <div class="form-group{{ $errors->has('client_name') ? ' has-danger' : '' }}">
                               <label>{{ __('Client Name') }}</label>
-                             <input type="text" name="client_name" class="form-control{{ $errors->has('client_name') ? ' is-invalid' : '' }}" placeholder="{{ __('Client Name') }}" value="{{$invoice_data->client_name}}">
+                             <input type="text" name="client_name" class="form-control{{ $errors->has('client_name') ? ' is-invalid' : '' }}" placeholder="{{ __('Client Name') }}" required value="{{$invoice_data->client_name}}">
                              @include('alerts.feedback', ['field' => 'client_name'])
                         </div>
                         <div class="form-group{{ $errors->has('client_company_name') ? ' has-danger' : '' }}">
@@ -37,7 +37,7 @@
                     </div>
                         <div class="form-group{{ $errors->has('client_email_id') ? ' has-danger' : '' }}">
                               <label>{{ __('Client Email ID') }}</label>
-                             <input type="email" name="client_email_id" class="form-control{{ $errors->has('client_email_id') ? ' is-invalid' : '' }}" placeholder="{{ __('Client Email ID') }}" value="{{$invoice_data->client_email_id}}">
+                             <input type="email" name="client_email_id" class="form-control{{ $errors->has('client_email_id') ? ' is-invalid' : '' }}" placeholder="{{ __('Client Email ID') }}" required value="{{$invoice_data->client_email_id}}">
                              @include('alerts.feedback', ['field' => 'client_email_id'])
                         </div>
                         <div class="form-group{{ $errors->has('client_location') ? ' has-danger' : '' }}">
@@ -88,6 +88,11 @@
                          </select>
                          @include('alerts.feedback', ['field' => 'contract_type'])
                     </div>
+                    <div class="form-group{{ $errors->has('bcc_email') ? ' has-danger' : '' }}">
+                          <label>{{ __('Bcc Email') }}</label>
+                         <input type="text" name="bcc_email" class="form-control{{ $errors->has('bcc_email') ? ' is-invalid' : '' }}" placeholder="{{ __('Bcc Email') }}" value="{{$invoice_data->bcc_email}}">
+                         @include('alerts.feedback', ['field' => 'bcc_email'])
+                         </div>
                      </div>
              <div class="card-footer">
                <button type="submit" class="btn btn-fill btn-primary">{{ __('Save') }}</button>
