@@ -118,6 +118,12 @@
                     </ul>
                 </div>
             </li>
+            <li @if ($pageSlug == 'settings') class="active " @endif>
+                <a href="{{ route('pages.settings') }}">
+                    <i class="tim-icons icon-puzzle-10"></i>
+                    <p>{{ __('Setting') }}</p>
+                </a>
+            </li>
         </ul>
     </div>
 </div>

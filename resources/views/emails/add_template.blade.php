@@ -35,6 +35,7 @@
    </select>
    @include('alerts.feedback', ['field' => 'language'])
 </div>
+
 <div class="form-group">
     <label>{{ __('Email Subject') }}</label>
    <input type="text" name="subject" class="form-control{{ $errors->has('template_name') ? ' is-invalid' : '' }}" placeholder="{{ __('Email Subject') }}" value="{{$subject}}">
@@ -75,6 +76,7 @@
    </select>
    @include('alerts.feedback', ['field' => 'language'])
 </div>
+
 <div class="form-group">
     <label>{{ __('Email Subject') }}</label>
    <input type="text" name="subject" class="form-control{{ $errors->has('template_name') ? ' is-invalid' : '' }}" placeholder="{{ __('Email Subject') }}" value="">

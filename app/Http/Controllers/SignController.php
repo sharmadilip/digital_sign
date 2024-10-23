@@ -10,6 +10,7 @@ use PDF;
 use Mail;
 use Carbon\Carbon;
 use App\PdfTask;
+use Illuminate\Support\Facades\Response;
 
 class SignController extends Controller
 {
@@ -93,21 +94,7 @@ class SignController extends Controller
          $client_invoice=new InvoiceApprovedClient($mailData);
          $client_invoice->attach($pdf_url);
          Mail::to($data_get->client_email_id)->bcc('sales@mmincasso.nl','Sales')->send($client_invoice);
-         $user_invoice_email= DB::table("email_text_data")->select('*')->where('template_name',"mm_contract")->where("language",$email_template_language)->get()->first(); 
-         $useremail_body=$user_invoice_email->email_text;
-         foreach($email_template_replace as $key=>$values)
-          {
-            $useremail_body=str_replace($key,$values,$useremail_body);
-          }
-         $mailData = [
-          'subject' => $user_invoice_email->subject_text,
-          'client_name'=>$data_get->client_name,
-          'body' => $useremail_body,
-          'contact_id'=>base64_encode($get_template_id),
-            ];
-         $user_invoice=new InvoiceApproved($mailData);
-         $user_invoice->attach($pdf_url);
-         Mail::to($data_get->user_email_id)->send($user_invoice);
+        
          //---------------end email action-------------------
 
    
@@ -134,5 +121,32 @@ class SignController extends Controller
          $request_data['pdf_html_data']=str_replace('#client_signature_here#','Buiten portaal om geaccordeerd',$data['pages_data']);
          DB::table("invoice_table")->updateOrInsert(array("id"=>$get_template_id),$request_data);
          return back()->withStatus(__('Contract has been approved Manully.'));
+}
+
+//-----------------------public function for email verification----------------------------
+public function email_verification_image(Request $request)
+{   if($request->input('invoice_id')!='')
+    {
+    $contract_id=base64_decode($request->input('invoice_id'));
+    DB::table("email_open_verfication")->insertOrIgnore(array("contract_id"=>$contract_id,"user_data"=>""));
+    $im = imagecreate(1, 1);
+
+    // Set the background colour
+    $white = imagecolorallocate($im, 255, 255, 255);
+   
+    // Allocate the background colour
+    imagesetpixel($im, 1, 1, $white);
+     ob_start();
+    // Create a JPEG file from the image
+     imagejpeg($im);
+     $rendered_buffer = ob_get_contents();
+    // Free memory associated with the image
+    imagedestroy($im);
+
+    $response = Response::make($rendered_buffer);
+    $response->header('Content-Type', 'image/jpg');
+    return $response;
+    }
+
 }
 }

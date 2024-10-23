@@ -65,20 +65,26 @@ class HomeController extends Controller
     {
         $data=array();
         $template_data= DB::table("email_text_data")->orderBy('id','desc')->paginate(20);
+        
         $data['table_data']=$template_data;
         return view('emails.fixemail_list',$data);
     }
     public function add_email_template(Request $request)
     {   $data=array();
         $request_data=$request->all();
+        $template_parent=DB::table("email_template")->select("*")->where("parent_template",0)->get();
+        $data['template_parant']=$template_parent; 
         if(isset($request_data['email_template_id']))
         {
             $email_data=DB::table("email_template")->select('*')->where('id',$request_data['email_template_id'])->get()->first();
+            
             $data['id']=$email_data->id;
             $data['template_name']=$email_data->template_name;
             $data['body_text']=$email_data->body_text;
+            $data['parent_template']=$email_data->parent_template;
             $data['language']=$email_data->language;
             $data['subject']=$email_data->subject;
+            
             if(!empty($email_data->extra_file))
             {
             $data['extra_file']=unserialize($email_data->extra_file);

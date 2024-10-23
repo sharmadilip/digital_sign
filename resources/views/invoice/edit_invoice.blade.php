@@ -79,6 +79,7 @@
                          </select>
                          @include('alerts.feedback', ['field' => 'email_template'])
                     </div>
+                    
                     <div class="form-group{{ $errors->has('	contract_type') ? ' has-danger' : '' }}">
                           <label>{{ __('Contract Type') }}</label>
                          <select  name="contract_type" class="form-control{{ $errors->has('contract_type') ? ' is-invalid' : '' }}">
@@ -93,6 +94,16 @@
                          <input type="text" name="bcc_email" class="form-control{{ $errors->has('bcc_email') ? ' is-invalid' : '' }}" placeholder="{{ __('Bcc Email') }}" value="{{$invoice_data->bcc_email}}">
                          @include('alerts.feedback', ['field' => 'bcc_email'])
                          </div>
+                         <div class="form-group{{ $errors->has('automatic_resend') ? ' has-danger' : '' }}">
+                          <label>{{ __('Auto Reminder') }}</label>
+                         <select  name="automatic_resend" class="form-control{{ $errors->has('automatic_resend') ? ' is-invalid' : '' }}">
+                            
+                          <option value="0" @if($invoice_data->automatic_resend==0) selected @endif>No</option> 
+                          <option value="1" @if($invoice_data->automatic_resend==1) selected @endif>Yes</option>
+                            
+                         </select>
+                         @include('alerts.feedback', ['field' => 'automatic_resend'])
+                    </div>
                      </div>
              <div class="card-footer">
                <button type="submit" class="btn btn-fill btn-primary">{{ __('Save') }}</button>

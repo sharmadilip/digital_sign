@@ -38,16 +38,26 @@ class PDFController extends Controller
          return back()->withStatus(__('Pdf template successfully copied.'));
     }
     public function add_pdf_template(Request $request)
-    {    if(isset($request->template_id)) {
+    {     $email_template_data= DB::table("email_template")->select(array("id","template_name"))->get();
+        $data['email_template_data']=$email_template_data;
+        if(isset($request->template_id)) {
         $template_id=$request->template_id;
         $data_get=DB::table("pdf_templates")->select("*")->where("id",$template_id)->get()->first(); 
         $data['pages_data']= json_decode($data_get->pdf_data_html);
+       
         $data['template_id']=$data_get->id;
         $data['template_name']=$data_get->template_name;
+        $data['email_templates_data']='';
+        $data['email_templates_data_array']=array();
+        if($data_get->email_templates_data!=null)
+        {
+        $data['email_templates_data']=$data_get->email_templates_data;
+        $data['email_templates_data_array']=explode(",",$data_get->email_templates_data);
+        }
         return view('pdfs.edit_template_pdf',$data);
     }
      else{
-        return view('pdfs.edit_template_pdf'); 
+        return view('pdfs.edit_template_pdf',$data); 
       }
     }
     //----------view template on click view button by id--------------------------
@@ -88,14 +98,17 @@ class PDFController extends Controller
             $html_data[]=$pdf_page;
             }
         }
+        
         $data['pdf_data_html']=json_encode( $html_data);
         $data['created_at']=Carbon::now()->toDateTimeString();
         $data['template_name']=$request->input('template_name');
+        $data['email_templates_data']=$request->input('email_templates_data');
         if(isset($edit_id))
         {
            
             $request_data['pdf_data_html']=json_encode($html_data);
             $request_data['template_name']=$data['template_name'];
+            $request_data['email_templates_data']=$request->input('email_templates_data');
             $request_data['updated_at']=Carbon::now()->toDateTimeString();
             DB::table("pdf_templates")->updateOrInsert(array("id"=>$edit_id),$request_data);
             return back()->withStatus(__('Pdf Template Updated successfully added.'));

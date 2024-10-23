@@ -11,6 +11,21 @@
 
           </div>
           <div class="card-body">
+            <label>Color code with status</label>
+            @php
+                  $default_color_code=$pdf_task_model->get_setting_value('default_color_code');
+                  $contract_signed_color_code=$pdf_task_model->get_setting_value('contract_signed_color');
+                  $try_to_sign_in=$pdf_task_model->get_setting_value('client_try_sign_in');
+                  $five_day_auto=$pdf_task_model->get_setting_value('5_days_resend_color_code');
+                  $ten_day_auto=$pdf_task_model->get_setting_value('10_days_resend_color_code');
+                  $twinty_day_auto=$pdf_task_model->get_setting_value('28_days_resend_color_code');
+            @endphp
+            <div class="row" style="padding: 5px;"><button type="button" style="background: {{$contract_signed_color_code}}" class="btn  btn-sm">Contract Signed</button>
+<button type="button" style="background: {{$default_color_code}}" class="btn btn-sm ">Default</button>
+<button type="button" style="background: {{$try_to_sign_in}}" class="btn btn-sm "> Client Tried For sign</button>
+<button type="button" style="background: {{$five_day_auto}}" class="btn btn-sm">5 Days Autosend</button>
+<button type="button" style="background: {{$ten_day_auto}}" class="btn btn-sm ">10 Days Autosend</button>
+<button type="button" style="background: {{$twinty_day_auto}}" class="btn btn-sm ">28 Days Autosend</button> </div>
             <form class="form" class="" method="post" action="{{ route('pages.invoicelist') }}">
               @csrf
               <div class="row ">
@@ -56,10 +71,19 @@
                   </tr>
                   </thead>
                   <tbody>
+                  
                   @foreach($invoice_data as $my_data)
-                      <tr style="background-color: @if($my_data->order_status==1&&$my_data->client_sing==null&&$my_data->resend_status==1) #562d51; @elseif($my_data->order_status==1&&$my_data->client_sing==null) #1b2948;@elseif($my_data->order_status==2) #384227; @elseif($my_data->order_status==1&&$my_data->client_sing!=null)#97062e; @endif">
+                  @php
+
+                  $color_code_resend=$pdf_task_model->reminder_color_scheme($my_data->id);
+                  $color_code_not_auto=$pdf_task_model->get_setting_value('resend_contract_color');
+                  $email_view=$pdf_task_model->email_has_been_view($my_data->id);
+                 
+                  @endphp
+                  
+                      <tr style="background-color: @if($my_data->order_status==1&&$my_data->client_sing==null&&$my_data->resend_status==1&&$my_data->automatic_resend ==0) {{$color_code_not_auto}} @elseif($my_data->order_status==1&&$my_data->client_sing==null&&$my_data->resend_status_count > 0&&$my_data->automatic_resend ==1)  {{$color_code_resend}}  @elseif($my_data->order_status==1&&$my_data->client_sing==null){{$default_color_code}}@elseif($my_data->order_status==2) {{$contract_signed_color_code}} @elseif($my_data->order_status==1&&$my_data->client_sing!=null){{ $try_to_sign_in}} @endif">
                           <td>
-                            Contract {{$my_data->id}}
+                             {{$my_data->id}}-{{$email_view}}
                           </td>
                           <td>
                               {{$my_data->client_company_name}}

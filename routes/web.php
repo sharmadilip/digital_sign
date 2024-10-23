@@ -56,12 +56,16 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
+	Route::post('settings/update', ['as' => 'settings.update', 'uses' => 'App\Http\Controllers\SettingsValue@update']);
+    Route::post('settings/add', ['as' => 'settings.addSetting', 'uses' => 'App\Http\Controllers\SettingsValue@addSetting']);
+	Route::get('settings', ['as' => 'pages.settings', 'uses' => 'App\Http\Controllers\SettingsValue@edit']);
 });
 //---------without login------------------
 Route::get('invoice_view_client', ['as' => 'pages.invoiceviewcleint', 'uses' => 'App\Http\Controllers\SignController@display_pdf_for']);
 Route::post('save_signature_db', ['as' => 'pages.savesignaturedb', 'uses' => 'App\Http\Controllers\SignController@save_signature_to_db']);
 Route::post('approve_contract', ['as' => 'pages.approvecontract', 'uses' => 'App\Http\Controllers\SignController@approve_invoice_signature']);
 Route::get('viewcontract', ['as' => 'pages.viewcontract', 'uses' => 'App\Http\Controllers\SignController@download_invoice']);
+Route::get('validate_email_view', ['as' => 'pages.validateemailview', 'uses' => 'App\Http\Controllers\SignController@email_verification_image']);
 
 
 

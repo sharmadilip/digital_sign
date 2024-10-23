@@ -19,11 +19,49 @@
         <!-- CSS -->
         <link href="{{ asset('black') }}/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
         <link href="{{ asset('black') }}/css/theme.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <script src="https://cdn.tiny.cloud/1/mqnl2ghcf1w62y6cid79j87s8aifeyl1gznntkihemzrklix/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
         
-        
+        <style>
+
+#loading {
+  position: fixed;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  text-align: center;
+  opacity: 0.7;
+  background-color: #fff;
+  z-index: 99;
+}
+
+#loading-image {
+  position: absolute;
+  top: 175px;
+  left: 50%;
+  z-index: 100;
+  max-width:10%;
+}
+.select2-container--default .select2-selection--multiple{
+  background-color: #27304a !important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+  background-color:black !important;
+}
+.select2-dropdown{
+  background-color: #27304a !important;
+}
+.select2-container--default .select2-results__option--selected{
+  background-color:green;
+}
+        </style>
     </head>
     <body class="{{ $class ?? '' }}">
+    <div id="loading" style="display: none;">
+  <img id="loading-image" src="{{ asset('black') }}/img/loading-waiting.gif" alt="Loading..." />
+</div>
         @auth()
             <div class="wrapper">
                     @include('layouts.navbars.sidebar')
@@ -66,11 +104,31 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" ></script>
         <script src="{{ asset('black') }}/js/black-dashboard.min.js?v=1.0.0"></script>
         <script src="{{ asset('black') }}/js/theme.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="{{ asset('black') }}/js/bcPaint.js"></script>
         @stack('js')
 
         <script>
-            $(document).ready(function() {
+          
+             $(document).ready(function() {
+              //---------multiselect assign------------------
+                 $("#multiple_select").select2({maximumSelectionLength:3
+                 });
+              //---------------multi select work data-----------------
+                 $('#multiple_select').on('select2:select', function (e) {
+                  var data = e.params.data.id;
+                  var get_val = $("#multiple_value_text").val();
+                  var hidden_val = (get_val != "") ? get_val+"," : get_val;
+                  $("#multiple_value_text").val(hidden_val+""+data);
+                 
+                 });
+                 $('#multiple_select').on('select2:unselect', function (e) {
+                  var data = e.params.data.id;
+                  var get_val = $("#multiple_value_text").val();
+                   var new_val = get_val.replace(data, "");
+                   $("#multiple_value_text").val(new_val);
+                 });
+                 //-----------multiselect value----------------
                 $().ready(function() {
                     $sidebar = $('.sidebar');
                     $navbar = $('.navbar');
@@ -87,7 +145,9 @@
             });
 
             $(document).ready(function() {
-    // Javascript method's body can be found in assets/js/demos.js
+             
+              
+         // Javascript method's body can be found in assets/js/demos.js
     function add_tinymic_data()
     {
         
@@ -142,7 +202,7 @@ $("body").on('click',"#delete_pdf_template_btn",function(){
    var template_id=$(this).data('id');
    if (confirm('Are you sure you want to delete this ?')) {
 
-
+    $('#loading').show();
       $.ajax({
          headers: {
          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -157,7 +217,7 @@ $("body").on('click',"#delete_pdf_template_btn",function(){
        
         },
         error: function (data) {
-         
+          $('#loading').hide();
         }
         })
       }
@@ -167,6 +227,7 @@ $("body").on("click",".delete_this_file",function(){
   var template_id=$(this).data('id');
   var element=this;
   var file_name=$(this).data('name');
+  $('#loading').show();
   $.ajax({
          headers: {
          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -175,7 +236,7 @@ $("body").on("click",".delete_this_file",function(){
           'data':{"file_name":file_name,"template_id":template_id},
           'type': "POST",
           success: function (data) {
-           
+            $('#loading').hide();
             if(data=="deleted")
           {
             $(element).parent("span").remove();
@@ -184,7 +245,7 @@ $("body").on("click",".delete_this_file",function(){
        
         },
         error: function (data) {
-         
+          $('#loading').hide();
         }
         });
 })
@@ -192,7 +253,7 @@ $("body").on("click",".delete_this_file",function(){
 
 $("body").on('click',"#send_to_client_contract",function(){
    var template_id=$(this).data('id');
-   
+   $('#loading').show();
       $.ajax({
          headers: {
          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -207,7 +268,7 @@ $("body").on('click',"#send_to_client_contract",function(){
        
         },
         error: function (data) {
-         
+          $('#loading').hide();
         }
         });
       
@@ -234,6 +295,7 @@ $("body").on('click',"#send_to_client_contract",function(){
         }
         else if(data)
         {
+          $('#loading').show();
          $('#signature_data_value').val(data);
          $('#paint_signature').modal('hide');
          $.ajax({
@@ -247,7 +309,7 @@ $("body").on('click',"#send_to_client_contract",function(){
          
           },
           error: function (data) {
-           
+            $('#loading').hide();
           }
          })
         }
@@ -302,6 +364,7 @@ function encodeImageFileAsURL(element) {
     //--------------approve contract by user------
     $("body").on("click","#approve_signature_digital",function(){
       var contract_id=$("#invoice_id").val();
+      $('#loading').show();
       $.ajax({
         headers: {
          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -316,7 +379,7 @@ function encodeImageFileAsURL(element) {
          
           },
           error: function (data) {
-           
+            $('#loading').hide();
           }
          })
     })

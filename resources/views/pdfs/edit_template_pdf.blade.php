@@ -31,6 +31,16 @@
    <input type="text" name="template_name" class="form-control{{ $errors->has('template_name') ? ' is-invalid' : '' }}" placeholder="{{ __('Template Name') }}" value="{{$template_name}}">
    @include('alerts.feedback', ['field' => 'template_name'])
 </div>
+<div class="form-group{{ $errors->has('	email_multi_template') ? ' has-danger' : '' }}">
+                          <label>{{ __('Select Email Reminder Template (should be in order )') }}</label>
+                         <select data-sorted-values="" id="multiple_select"  class="form-control{{ $errors->has('email_multi_template') ? ' is-invalid' : '' }}" multiple>
+                            @foreach($email_template_data as $email_template)
+                            <option value="{{$email_template->id}}" @if(in_array($email_template->id,$email_templates_data_array)) selected @endif >{{$email_template->template_name}}</option>
+                            @endforeach
+                         </select>
+                         <input type="hidden" id="multiple_value_text" name="email_templates_data" value="{{$email_templates_data}}" />
+                         @include('alerts.feedback', ['field' => 'email_multi_template'])
+                    </div>
 @foreach($pages_data as $page_row)
 @php($count++)
 <div style="padding-top: 10px;"><strong><h2>Page {{$count}}<h2></strong></div>
@@ -44,6 +54,16 @@
    <input type="text" name="template_name" class="form-control{{ $errors->has('template_name') ? ' is-invalid' : '' }}" placeholder="{{ __('Template Name') }}" value="">
    @include('alerts.feedback', ['field' => 'template_name'])
 </div>
+<div class="form-group{{ $errors->has('	email_multi_template') ? ' has-danger' : '' }}">
+                          <label>{{ __('Select Email Reminder Template (should be in order )') }}</label>
+                         <select id="multiple_select"  data-sorted-values="" class="form-control{{ $errors->has('email_multi_template') ? ' is-invalid' : '' }}" multiple>
+                            @foreach($email_template_data as $email_template)
+                            <option value="{{$email_template->id}}">{{$email_template->template_name}}</option>
+                            @endforeach
+                         </select>
+                         <input type="hidden" id="multiple_value_text" name="email_templates_data" value="" />
+                         @include('alerts.feedback', ['field' => 'email_multi_template'])
+                    </div>
 <div style="padding-top: 10px;"><strong><h2>Page 1<h2></strong></div>
 <textarea id="tinymic_1" name="pdf_page[]">
 <div style="padding-top: 200px; padding-left: 70px; font-size: 35px; font-weight: bold;">Verwerkersovereenkomst</div>
