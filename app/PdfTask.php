@@ -149,14 +149,14 @@ class PdfTask
          //--------------defining the email item if data is from resend-----------------
          if($data_get->order_status==1)
         {   
-         
+          $request_data['resend_status']=1;
           $email_templ=self::get_email_template_reminder($data_get->template_id,$resend_status);
           
           //----------old code for get resend data values--------------
             if($email_templ=="")
             {
             $email_get_lang= DB::table("email_template")->select('language')->where('id',$data_get->email_template)->get()->first();
-            $request_data['resend_status']=1;
+            
             //-----------older section start-----------------
            
            if($data_get->contract_type==2)

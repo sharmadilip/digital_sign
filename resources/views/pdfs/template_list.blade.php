@@ -20,6 +20,7 @@
                           Template ID
                       </th>
                       <th>Template Name</th>
+                      <th>Display Order</th>
                       <th>
                           Added ON
                       </th>
@@ -37,6 +38,7 @@
                           <td>
                             {{$my_data->template_name}}
                         </td>
+                        <td><input type="number"  class="form-control reorder_pdftemplate_data" data-id="{{$my_data->id}}" value="{{$my_data->order_number}}" name="reorder_pdftemplate_data_{{$my_data->id}}" /></td>
                           <td>
                               {{$my_data->created_at}}
                           </td>

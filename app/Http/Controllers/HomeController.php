@@ -57,7 +57,7 @@ class HomeController extends Controller
     public function view_email_tempalte()
     {
         $data=array();
-        $template_data= DB::table("email_template")->orderBy('id','desc')->paginate(20);
+        $template_data= DB::table("email_template")->orderBy('order_number')->paginate(20);
         $data['table_data']=$template_data;
         return view('emails.template_list',$data);
     }
@@ -186,6 +186,21 @@ class HomeController extends Controller
        $file_data=serialize($files_list);
        DB::table("email_template")->where(array("id"=>$email_template_id))->update(["extra_file"=>$file_data]);
       echo "deleted";
+    }
+    public function copy_email_template(Request $request)
+    {   if(isset($request->template_id)) {
+        $template_id=$request->template_id;
+        $data_get=DB::table("email_template")->select("*")->where("id",$template_id)->get()->first(); 
+        $data['body_text']= $data_get->body_text;
+        $data['subject']= $data_get->subject;
+        $data['language']= $data_get->language;
+        $data['extra_file']= $data_get->extra_file;
+        $data['template_name']=$data_get->template_name."_copy";
+        $data['created_at']=Carbon::now()->toDateTimeString();
+        DB::table("email_template")->insert($data);
+         } 
+        
+         return back()->withStatus(__('Email template successfully copied.'));
     }
     
 }

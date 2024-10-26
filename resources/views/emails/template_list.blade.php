@@ -21,6 +21,7 @@
                       </th>
                       <th>Template Name</th>
                       <th>Subject</th>
+                      <th>Display Order</th>
                       <th>Language</th>
                       <th>
                           Added ON
@@ -42,6 +43,7 @@
                         <td>
                           {{$my_data->subject}}
                       </td>
+                      <td><input type="number"  class="form-control reorder_emailtemplate_data" data-id="{{$my_data->id}}" value="{{$my_data->order_number}}" name="reorder_emailtemplate_data_{{$my_data->id}}" /></td>
                       <td>
                         {{$my_data->language}}
                     </td>
@@ -50,7 +52,7 @@
                           </td>
                           
                           <td class="text-center">
-                             <a href="{{ route('pages.addemailtemplate') }}?email_template_id={{$my_data->id}}" class="text-info" >Edit</a> | <a href="{{ route('pages.deleteemailtemplate') }}?email_template_id={{$my_data->id}}"   class="text-info" >Delete</a> 
+                             <a href="{{ route('pages.addemailtemplate') }}?email_template_id={{$my_data->id}}" class="text-info" >Edit</a> | <a href="{{ route('pages.deleteemailtemplate') }}?email_template_id={{$my_data->id}}"   class="text-info" >Delete</a> | <a href="{{ route('pages.copyemailtemplate') }}?template_id={{$my_data->id}}"   class="text-info" >Copy Email</a> 
                           </td>
                       </tr>
                   @endforeach

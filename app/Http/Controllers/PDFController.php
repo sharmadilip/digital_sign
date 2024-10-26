@@ -21,7 +21,7 @@ class PDFController extends Controller
         $this->middleware('auth');
     }
     public function list_pdf_template()
-    {    $table_data=DB::table("pdf_templates")->orderBy('id','desc')->paginate(20);
+    {    $table_data=DB::table("pdf_templates")->orderBy("order_number")->paginate(20);
         $data['table_data']=$table_data;
         return view('pdfs.template_list',$data);
     }
@@ -128,6 +128,29 @@ class PDFController extends Controller
       DB::table('pdf_templates')->where('id', $template_id)->delete();
       $message=array("success" => "Template has been deleted");
       return json_encode($message);
+    }
+    public function update_order_number(Request $request)
+    {
+        $template_id=$request->input('template_id');
+        $order_number=$request->input('order_number');
+        $type=$request->input("type");
+        if(!is_int($order_number))
+        {
+            if($type=="pdf")
+            {
+        DB::table('pdf_templates')->where('id', $template_id)->update(array('order_number'=>$order_number));
+            }
+            elseif($type=="email")
+            {
+                DB::table('email_template')->where('id', $template_id)->update(array('order_number'=>$order_number));
+            }
+
+        $message=array("success" => "Order has been updated");
+        }
+        else{
+            $message=array("success" => "Please enter a number"); 
+        }
+        return json_encode($message);
     }
     
 }

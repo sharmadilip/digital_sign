@@ -44,8 +44,8 @@ class InvoiceController extends Controller
     public function add_invoice(Request $request)
     {    $request_data=$request->all();
         $data=array();
-        $template_data= DB::table("pdf_templates")->select(array("id","template_name"))->get();
-        $email_template_data= DB::table("email_template")->select(array("id","template_name"))->get();
+        $template_data= DB::table("pdf_templates")->select(array("id","template_name"))->orderBy("order_number")->get();
+        $email_template_data= DB::table("email_template")->select(array("id","template_name"))->orderBy('order_number')->get();
         $data['email_template_data']=$email_template_data;
         if(isset($request_data['invoice_id']))
         {    $data['invoice_data']= DB::table("invoice_table")->select('*')->where('id',$request_data['invoice_id'])->get()->first();

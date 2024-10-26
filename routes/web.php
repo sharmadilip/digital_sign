@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('generatepdf_template', ['as' => 'pages.generatepdf_template', 'uses' => 'App\Http\Controllers\PDFController@view_pdf_template']);
 		Route::post('savepdftemplate', ['as' => 'pages.savepdftemplate', 'uses' => 'App\Http\Controllers\PDFController@save_pdf_template']);
 		Route::post('deletepdftemplate', ['as' => 'pages.deletepdftemplate', 'uses' => 'App\Http\Controllers\PDFController@delete_pdf_tempalte']);
+		Route::post('update_template_order', ['as' => 'pages.templateorder', 'uses' => 'App\Http\Controllers\PDFController@update_order_number']);
         Route::get('templatelist', ['as' => 'pages.templatelist', 'uses' => 'App\Http\Controllers\PDFController@list_pdf_template']);
 		Route::any('invoicelist', ['as' => 'pages.invoicelist', 'uses' => 'App\Http\Controllers\InvoiceController@view_invoice']);
 		
@@ -43,6 +44,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('view_fixemail_template', ['as' => 'pages.viewfixemailtemplate', 'uses' => 'App\Http\Controllers\HomeController@view_fixemail_tempalte']);
 		Route::get('edit_fixemail_template', ['as' => 'pages.editfixemailtemplate', 'uses' => 'App\Http\Controllers\HomeController@edit_fixemail_template']);
 		Route::post('save_fixemail_template', ['as' => 'pages.savefixemailtemplate', 'uses' => 'App\Http\Controllers\HomeController@save_fixemail_template']);
+		Route::get('copyemailtemplate', ['as' => 'pages.copyemailtemplate', 'uses' => 'App\Http\Controllers\HomeController@copy_email_template']);
 		Route::get('delete_email_template', ['as' => 'pages.deleteemailtemplate', 'uses' => 'App\Http\Controllers\HomeController@delete_template']);
 		Route::get('sign_contract_manul', ['as' => 'pages.signcontractmanully', 'uses' => 'App\Http\Controllers\SignController@sign_contract_manully']);
 		Route::post('deletelinkfileemail', ['as' => 'pages.deletelinkfileemail', 'uses' => 'App\Http\Controllers\HomeController@delete_uploaded_file']);

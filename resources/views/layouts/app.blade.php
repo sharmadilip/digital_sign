@@ -20,8 +20,8 @@
         <link href="{{ asset('black') }}/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
         <link href="{{ asset('black') }}/css/theme.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <script src="https://cdn.tiny.cloud/1/mqnl2ghcf1w62y6cid79j87s8aifeyl1gznntkihemzrklix/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-        
+       <!-- <script src="https://cdn.tiny.cloud/1/vutkqwhou5nvd3tye74chu7tosi7jgyi7dvdnuecpepmeoww/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>-->
+       <script src="{{ asset('black') }}/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
         <style>
 
 #loading {
@@ -119,6 +119,7 @@
                   var data = e.params.data.id;
                   var get_val = $("#multiple_value_text").val();
                   var hidden_val = (get_val != "") ? get_val+"," : get_val;
+                  
                   $("#multiple_value_text").val(hidden_val+""+data);
                  
                  });
@@ -126,6 +127,7 @@
                   var data = e.params.data.id;
                   var get_val = $("#multiple_value_text").val();
                    var new_val = get_val.replace(data, "");
+                    new_val= new_val.replace(',,', "");
                    $("#multiple_value_text").val(new_val);
                  });
                  //-----------multiselect value----------------
@@ -153,6 +155,7 @@
         
     tinymce.init({
     selector: 'textarea[id^="tinymic_"]',
+    license_key: 'gpl',
     plugins: 'anchor autolink charmap codesample code emoticons image link lists media searchreplace table visualblocks wordcount preview',
     toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat | preview',
     tinycomments_mode: 'embedded',
@@ -273,7 +276,53 @@ $("body").on('click',"#send_to_client_contract",function(){
         });
       
 });
-
+$("body").on('change',".reorder_pdftemplate_data",function(){
+   var template_id=$(this).data('id');
+   var order_number=$(this).val();
+  // $('#loading').show();
+      $.ajax({
+         headers: {
+         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         },
+          'url':'{{route("pages.templateorder")}}',
+          'data':{"template_id":template_id,"order_number":order_number,"type":"pdf"},
+          'type': "POST",
+          'dataType': 'json',
+          success: function (data) {
+           
+           // $('#loading').hide();
+       
+        },
+        error: function (data) {
+          //$('#loading').hide();
+        }
+        });
+      
+});
+ 
+$("body").on('change',".reorder_emailtemplate_data",function(){
+   var template_id=$(this).data('id');
+   var order_number=$(this).val();
+  // $('#loading').show();
+      $.ajax({
+         headers: {
+         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         },
+          'url':'{{route("pages.templateorder")}}',
+          'data':{"template_id":template_id,"order_number":order_number,"type":"email"},
+          'type': "POST",
+          'dataType': 'json',
+          success: function (data) {
+           
+           // $('#loading').hide();
+       
+        },
+        error: function (data) {
+          //$('#loading').hide();
+        }
+        });
+      
+});
   });
         </script>
         @if(isset($pageSlug)&&$pageSlug=="pages.viewinvoice")

@@ -35,10 +35,11 @@
                           <label>{{ __('Select Email Reminder Template (should be in order )') }}</label>
                          <select data-sorted-values="" id="multiple_select"  class="form-control{{ $errors->has('email_multi_template') ? ' is-invalid' : '' }}" multiple>
                             @foreach($email_template_data as $email_template)
-                            <option value="{{$email_template->id}}" @if(in_array($email_template->id,$email_templates_data_array)) selected @endif >{{$email_template->template_name}}</option>
+                            <option value="{{$email_template->id}}" @if(in_array($email_template->id,$email_templates_data_array)) selected @endif >{{$email_template->template_name}}({{$email_template->id}})</option>
                             @endforeach
                          </select>
-                         <input type="hidden" id="multiple_value_text" name="email_templates_data" value="{{$email_templates_data}}" />
+                         <br>
+                         <input type="text" id="multiple_value_text" class="form-control" name="email_templates_data" value="{{$email_templates_data}}" />
                          @include('alerts.feedback', ['field' => 'email_multi_template'])
                     </div>
 @foreach($pages_data as $page_row)
@@ -58,10 +59,10 @@
                           <label>{{ __('Select Email Reminder Template (should be in order )') }}</label>
                          <select id="multiple_select"  data-sorted-values="" class="form-control{{ $errors->has('email_multi_template') ? ' is-invalid' : '' }}" multiple>
                             @foreach($email_template_data as $email_template)
-                            <option value="{{$email_template->id}}">{{$email_template->template_name}}</option>
+                            <option value="{{$email_template->id}}">{{$email_template->template_name}}({{$email_template->id}})</option>
                             @endforeach
                          </select>
-                         <input type="hidden" id="multiple_value_text" name="email_templates_data" value="" />
+                         <input type="text" class="form-control" id="multiple_value_text" name="email_templates_data" value="" />
                          @include('alerts.feedback', ['field' => 'email_multi_template'])
                     </div>
 <div style="padding-top: 10px;"><strong><h2>Page 1<h2></strong></div>
